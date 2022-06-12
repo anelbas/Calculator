@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "9b4KWOhtS6EklbCE5qmgDGkuk/5/ABTcUE3MavxbwohFi+PVRGRA35CPmO4dzR0GzAsptOYF8GTrmmbkyhWd9g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mqweb001\\Desktop\\Design Patterns\\new_calculator\\Calculator\\CalculatorAPI\\CalculatorAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mqweb001\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\mqweb001\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\mqweb001\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\mqweb001\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\mqweb001\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\mqweb001\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
