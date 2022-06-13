@@ -13,12 +13,6 @@ namespace WebApplication1.Controllers
     [Route("[controller]")]
     public class VectorCalculatorControler : ControllerBase
     {
-
-       private static readonly int[] vector = new[]
-        {
-            1,2,3,4
-        };
-
        public Calculator calculator = new Calculator();
 
         private readonly ILogger<VectorCalculatorControler> _logger;
@@ -27,14 +21,7 @@ namespace WebApplication1.Controllers
         {
             _logger = logger;
         }
-
-        [HttpGet]
-        public IEnumerable<int> Get()
-        {
-           
-            return vector.ToArray();
-
-        }
+        
         [Route("Addition")]
         [HttpPost]
         public String Addition([FromBody] Vectors vectors)
