@@ -13,10 +13,7 @@ namespace CalculatorAPI.Repository
             int [][] values = new int[vectors[0].values.Length][] ;
              try
             {
-                 if (vectors[0].values.Length == vectors[1].values[0].Length && vectors[1].values[0].Length>1){
-                     values=HorizontalVerticalDimension(vectors);
-                 }
-                else if (vectors[0].values[0].Length == vectors[1].values.Length&& vectors[1].values.Length > 1){
+                 if (vectors[0].values[0].Length == vectors[1].values.Length&& vectors[1].values.Length > 1){
                     values = VerticalHorizontalDimension(vectors);
                 }
                 else{
@@ -36,16 +33,6 @@ namespace CalculatorAPI.Repository
                     values[i]= new int[vectors[0].values[0].Length];
                     for (int j = 0 ;j<vectors[0].values[0].Length;j++){
                         values[i][j]=vectors[1].values[i][0]*vectors[0].values[0][j];
-                    }
-                }
-            return values;
-        }
-        private int [][] HorizontalVerticalDimension(List<Vector> vectors){
-            int [][] values = new int[vectors[1].values[0].Length][] ;
-             for(int i = 0; i< vectors[0].values.Length ;i++){
-                    values[i]= new int[vectors[1].values[0].Length];
-                    for (int j = 0 ;j<vectors[1].values[0].Length;j++){
-                        values[i][j]=vectors[0].values[i][0]*vectors[1].values[0][j];
                     }
                 }
             return values;
