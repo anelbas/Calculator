@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace WebApplication1.Controllers
         {
             _logger = logger;
         }
-        
+        [Authorize]
         [Route("Addition")]
         [HttpPost]
         public String Addition([FromBody] Vectors vectors)
@@ -32,6 +33,7 @@ namespace WebApplication1.Controllers
             String result = calculator.Calcutulate();
             return result;
         }
+        [Authorize]
         [Route("Subtract")]
         [HttpPost]
         public String Subtract([FromBody] Vectors vectors)
@@ -42,6 +44,7 @@ namespace WebApplication1.Controllers
             String result = calculator.Calcutulate();
             return result;
         }
+        [Authorize]
         [Route("Multiply")]
         [HttpPost]
         public String Multiply([FromBody] Vectors vectors)
