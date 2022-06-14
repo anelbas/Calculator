@@ -9,10 +9,11 @@ using CalculatorAPI.Repositories;
 namespace CalculatorAPI.Controllers
 {   
     public class TrigFunctionController
-    {
+    {     [Authorise]
           [HttpPost("TrigFunctions")]
         public async Task<IActionResult> getInputs([FromBody] TrigPostRequest trig)
         {
+        
             
             TrigPostRequest d = new  TrigPostRequest();
             List<Trig> ls= trig.Tags;
