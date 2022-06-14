@@ -11,22 +11,17 @@ namespace CalculatorAPI.Repository
     {
         public override String CalculateVectors(List<Vector> vectors){
             int [] values = new int[vectors[0].values[0].Length];
-             try
-            {
-                 if (vectors[0].values[0].Length == vectors[1].values[0].Length && vectors[1].values[0].Length>1){
-                     values=HorizontalDimension(vectors);
-                 }
-                else if (vectors[0].values.Length == vectors[1].values.Length && vectors[1].values.Length > 1){
-                    values = VerticalDimension(vectors);
-                }
-                else {
-                    throw new Exception("Incorrect Dimensions, To add matrices, the matrices must have the same dimensions");
-                }
+            
+            if (vectors[0].values[0].Length == vectors[1].values[0].Length && vectors[1].values[0].Length>1){
+                values=HorizontalDimension(vectors);
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
+            else if (vectors[0].values.Length == vectors[1].values.Length && vectors[1].values.Length > 1){
+                values = VerticalDimension(vectors);
             }
+            else {
+                throw new ErrorException(500,"Incorrect Dimensions, To add matrices, the matrices must have the same dimensions");
+            }
+            
             return Matrix(values);
             
         }

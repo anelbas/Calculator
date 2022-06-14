@@ -11,20 +11,14 @@ namespace CalculatorAPI.Repository
     {
         public override String CalculateVectors(List<Vector> vectors){
             int [][] values = new int[vectors[0].values.Length][] ;
-             try
-            {
+
                  if (vectors[0].values[0].Length == vectors[1].values.Length&& vectors[1].values.Length > 1){
                     values = VerticalHorizontalDimension(vectors);
                 }
                 else{
-                    throw new Exception("Incorrect Dimensions, To multiply two matrices the number of columns of the first matrix must equal the number of rows of the second matrix");
+                    throw new ErrorException(500,"Incorrect Dimensions, To multiply two matrices the number of columns of the first matrix must equal the number of rows of the second matrix");
                 }
                
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
             return Matrix(values);
         }
         private int [][] VerticalHorizontalDimension(List<Vector> vectors){
