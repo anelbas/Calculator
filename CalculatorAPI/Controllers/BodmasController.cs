@@ -6,10 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using CalculatorAPI.Models;
 using CalculatorAPI.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CalculatorAPI.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
 
     public class BodmasController : ControllerBase{
