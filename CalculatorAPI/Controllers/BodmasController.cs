@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace CalculatorAPI.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("[controller]")]
 
     public class BodmasController : ControllerBase{
@@ -23,7 +23,6 @@ namespace CalculatorAPI.Controllers
             _logger = logger;
         }
         BodmasCalculator calculator = new BodmasCalculator();
-
 
         [HttpPost(Name = "Bodmas")]
         public string getBodmasAnswer([FromBody] string equation) 
