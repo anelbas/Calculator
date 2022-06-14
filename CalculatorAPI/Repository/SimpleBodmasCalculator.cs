@@ -1,51 +1,44 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CalculatorAPI.Models;
 using System.Text.RegularExpressions;
+
 namespace CalculatorAPI.Repository
 {
 
-    public class BodmasCalculator
+    public class SimpleBodmasCalculator : BodmasBaseClass
     {
-        private Stack<string> operandStack;
-        private Stack<double> variableStack;
-        private bool error;
-        private string message;
+        public Stack<string> operandStack;
+        public Stack<double> variableStack;
+        public string answer;
 
-        public BodmasCalculator() {
+        public SimpleBodmasCalculator() 
+        {
             operandStack = new Stack<string>();
             variableStack = new Stack<double>();
-            error = false;
-            message = "";
+            answer = "Null";
         }
 
-        private bool isOperand(string operand) {
+        public override bool isOperand(string operand) 
+        {
             return string.Equals(operand, "+") || string.Equals(operand, "-") || string.Equals(operand, "/") || string.Equals(operand, "*");
         }
 
-        private bool isNumber(string number) {
+        public override bool isNumber(string number) 
+        {
             return double.TryParse(number, out var n);
         }
 
-        private string castToBiggerNumericValue(string answer) 
+        public string castToBiggerNumericValue(string answer) 
         {
             try
             {
                 return Convert.ToInt64(answer).ToString();
             } catch {
-                error = true;
-                message = "Size Error: The size of the answer to the equation you entered is beyond the capacity of this calculator.";
-                return "0";
+                throw new ErrorException(500,"Size Error: The size of the answer to the equation entered is bigger than the capacity allowed by the calculator api.");
             }
             
-
         }
 
-        private int getPrecedence(string operand) {
+        public override int getPrecedence(string operand) 
+        {
             if(string.Equals(operand, "+") || string.Equals(operand, "-")) {
                 return 1;
             } else if (string.Equals(operand, "/") || string.Equals(operand, "*")) {
@@ -54,21 +47,18 @@ namespace CalculatorAPI.Repository
             return 0;
         }
 
-        private void processOperand(string operand) {
+        public override void processOperand(string operand) 
+        {
             double input1, input2;
             if(variableStack.Count <= 0) {
-                message = "Expression error.";
-                error = true;
-                return;
+                throw new ErrorException(500,"Expression error. Please start your equation with a numeric value and not an operand.");
             } else {
                 input2 = variableStack.Peek();
                 variableStack.Pop();
             }
 
             if(variableStack.Count <= 0) {
-                message = "Expression error. Please make sure:\n 1. You added spaces between all numbers and operands\n2. There are no double operands\n3. The equation does not start or end with an operand\n4. Decimal values are written with a dot (.) and not a comma (,).";
-                error = true;
-                return;
+                throw new ErrorException(500,"Expression error. Please make sure:\n1. You added spaces between all numbers and operands\n2. There are no double operands\n3. The equation does not start or end with an operand\n4. Decimal values are written with a dot (.) and not a comma (,).");
             } else {
                 input1 = variableStack.Peek();
                 variableStack.Pop();
@@ -81,19 +71,23 @@ namespace CalculatorAPI.Repository
             } else if (string.Equals(operand, "-")) {
                 answerOfEquation = input1 - input2;
             } else if (string.Equals(operand, "/")) {
-                answerOfEquation = input1 / input2;
+                if (input2 == 0) {
+                    throw new ErrorException(500,"Division Error: You cannot divide by zero.");
+                } else {
+                    answerOfEquation = input1 / input2;
+                }
             } else if (string.Equals(operand, "*")) {
                 answerOfEquation = input1 * input2;
             } else {
-                message = "Expression Error. Operand " + operand + " not found. Please enter p, -, / or * .";
-                error = true;
+                throw new ErrorException(500,"Expression Error. Operand " + operand + " not found. Please enter p, -, / or * .");
             }
 
             variableStack.Push(answerOfEquation);
 
         }
 
-        public string calculate(string equation) {
+        public override string calculate(string equation) 
+        {
             string[] individualInputs = equation.Split(" ");
 
             foreach (string input in individualInputs) {
@@ -122,38 +116,29 @@ namespace CalculatorAPI.Repository
                 if (operandStack.Count > 0 && string.Equals(operandStack.Peek(), "(")) {
                     operandStack.Pop();
                     } else {
-                        message = "Error: unbalanced paranthesis. Please ensure that each opening bracket has a closing bracket.";
-                        error = true;
+                        throw new ErrorException(500,"Error: unbalanced paranthesis. Please ensure that each opening bracket has a closing bracket and that there are spaces between all individual input tokens.");
                     }
                 }
             }
 
-            while(operandStack.Count > 0 && isOperand(operandStack.Peek())) {
+            while(operandStack.Count > 0 && isOperand(operandStack.Peek())) 
+            {
                 string operandToProcess = operandStack.Peek();
                 operandStack.Pop();
                 processOperand(operandToProcess);
             }
 
-            if (!error) {
-                string answer = variableStack.Peek().ToString();
-                variableStack.Pop();
+            answer = variableStack.Peek().ToString();
+            variableStack.Pop();
 
-                if(operandStack.Count > 0 || variableStack.Count > 0) {
-                    message = "Expression error. Please ensure that all opeing brackets have closing brackets.";
-                    error = true;
-                } else if (answer.Contains('+') || Regex.IsMatch(answer, "[a-zA-Z]")) {
-                    string longAnswer = castToBiggerNumericValue(answer);
-                    if(error) {
-                        return message;
-                    }
-                    return answer;
-                } else {
-                    return answer;
-                }
-                
-            }
+            if(operandStack.Count > 0 || variableStack.Count > 0) {
+                throw new ErrorException(500,"Expression error. Please ensure that all opeing brackets have closing brackets.");
+            } else if (answer.Contains('+') || Regex.IsMatch(answer, "[a-zA-Z]")) {
+                string longAnswer = castToBiggerNumericValue(answer);
+                return longAnswer;
+            }  
             
-            return message;
+            return answer;
 
         }
     }
