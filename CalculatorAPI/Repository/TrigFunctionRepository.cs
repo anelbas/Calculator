@@ -5,13 +5,16 @@ using System.Threading.Tasks;
 using CalculatorAPI.Models;
 using CalculatorAPI.utils;
 using System.Text.RegularExpressions;
+using CalculatorAPI.Repository;
 
 
-namespace CalculatorAPI.Repositories
+namespace CalculatorAPI.Repository
 {
     public class TrigFunctionRepository
-    {       
-        public static double TrigImplement( List<Trig> ls){
+  
+    {   
+        BodmasCalculator calculator = new BodmasCalculator();    
+        public double TrigImplement( List<Trig> ls){
             Validations.Validate(ls);
             string answer = null;
             foreach (Trig obj in ls){
@@ -27,9 +30,9 @@ namespace CalculatorAPI.Repositories
                     answer = answer +obj.sign +Math.Round(getNum(obj.trigFunction)* Math.Tan(obj.degreeValue*Math.PI / 180.0), 2);
                 }
             }        
-
-            // eval will be replaced by that method that evaluates bodmas
+        
             return Eval(answer.Replace(",", "."));
+           
 
         }
 
@@ -46,7 +49,7 @@ namespace CalculatorAPI.Repositories
         }
     }
 
-    //this method will need to be deleted when the bodmas implementation is working
+
     public static Double Eval(String expression)
     {
         System.Data.DataTable table = new System.Data.DataTable();
