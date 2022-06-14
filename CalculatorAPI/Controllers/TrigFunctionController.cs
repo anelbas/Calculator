@@ -10,9 +10,9 @@ using CalculatorAPI.Repository;
 
 
 
-namespace CalculatorAPI.Controllers
+namespace WebApplication1.Controllers
 {   
-    public class TrigFunctionController
+    public class TrigFunctionController:ControllerBase
     {     [Authorize]
           [HttpPost("TrigFunctions")]
         public IActionResult getInputs([FromBody] TrigPostRequest trig)
@@ -26,7 +26,6 @@ namespace CalculatorAPI.Controllers
             }
             catch(ErrorException ex){
                 Response.StatusCode = ex.StatusCode;
-                //Response.StatusCode = ex.StatusCode;
                 return new ObjectResult(ex.ToString());
 
             }
