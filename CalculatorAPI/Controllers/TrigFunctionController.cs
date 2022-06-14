@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CalculatorAPI.Models;
 using CalculatorAPI.Repository;
-using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -13,7 +15,7 @@ namespace CalculatorAPI.Controllers
     public class TrigFunctionController
     {     [Authorize]
           [HttpPost("TrigFunctions")]
-        public Task<IActionResult> getInputs([FromBody] TrigPostRequest trig)
+        public IActionResult getInputs([FromBody] TrigPostRequest trig)
         {
         
             try{
@@ -24,9 +26,11 @@ namespace CalculatorAPI.Controllers
             }
             catch(ErrorException ex){
                 Response.StatusCode = ex.StatusCode;
-                return ex.ToString();
+                //Response.StatusCode = ex.StatusCode;
+                return new ObjectResult(ex.ToString());
 
             }
+            
     
 
           
