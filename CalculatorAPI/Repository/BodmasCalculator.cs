@@ -7,15 +7,13 @@ namespace CalculatorAPI.Repository
     {
         private Stack<string> operandStack;
         private Stack<double> variableStack;
-        private bool error;
-        private string message;
+        private string answer;
 
         public BodmasCalculator() 
         {
             operandStack = new Stack<string>();
             variableStack = new Stack<double>();
-            error = false;
-            message = "";
+            answer = "Null";
         }
 
         private bool isOperand(string operand) 
@@ -34,12 +32,9 @@ namespace CalculatorAPI.Repository
             {
                 return Convert.ToInt64(answer).ToString();
             } catch {
-                error = true;
-                message = "Size Error: The size of the answer to the equation entered is bigger than the capacity allowed by the calculator api.";
-                return "0";
+                throw new ErrorException(500,"Size Error: The size of the answer to the equation entered is bigger than the capacity allowed by the calculator api.");
             }
             
-
         }
 
         private int getPrecedence(string operand) 
@@ -56,18 +51,14 @@ namespace CalculatorAPI.Repository
         {
             double input1, input2;
             if(variableStack.Count <= 0) {
-                message = "Expression error. Please start your equation with a numeric value and not an operand.";
-                error = true;
-                return;
+                throw new ErrorException(500,"Expression error. Please start your equation with a numeric value and not an operand.");
             } else {
                 input2 = variableStack.Peek();
                 variableStack.Pop();
             }
 
             if(variableStack.Count <= 0) {
-                message = "Expression error. Please make sure:\n1. You added spaces between all numbers and operands\n2. There are no double operands\n3. The equation does not start or end with an operand\n4. Decimal values are written with a dot (.) and not a comma (,).";
-                error = true;
-                return;
+                throw new ErrorException(500,"Expression error. Please make sure:\n1. You added spaces between all numbers and operands\n2. There are no double operands\n3. The equation does not start or end with an operand\n4. Decimal values are written with a dot (.) and not a comma (,).");
             } else {
                 input1 = variableStack.Peek();
                 variableStack.Pop();
@@ -84,8 +75,7 @@ namespace CalculatorAPI.Repository
             } else if (string.Equals(operand, "*")) {
                 answerOfEquation = input1 * input2;
             } else {
-                message = "Expression Error. Operand " + operand + " not found. Please enter p, -, / or * .";
-                error = true;
+                throw new ErrorException(500,"Expression Error. Operand " + operand + " not found. Please enter p, -, / or * .");
             }
 
             variableStack.Push(answerOfEquation);
@@ -122,8 +112,7 @@ namespace CalculatorAPI.Repository
                 if (operandStack.Count > 0 && string.Equals(operandStack.Peek(), "(")) {
                     operandStack.Pop();
                     } else {
-                        message = "Error: unbalanced paranthesis. Please ensure that each opening bracket has a closing bracket and that there are spaces between all individual input tokens.";
-                        error = true;
+                        throw new ErrorException(500,"Error: unbalanced paranthesis. Please ensure that each opening bracket has a closing bracket and that there are spaces between all individual input tokens.");
                     }
                 }
             }
@@ -135,26 +124,17 @@ namespace CalculatorAPI.Repository
                 processOperand(operandToProcess);
             }
 
-            if (!error) {
-                string answer = variableStack.Peek().ToString();
-                variableStack.Pop();
+            answer = variableStack.Peek().ToString();
+            variableStack.Pop();
 
-                if(operandStack.Count > 0 || variableStack.Count > 0) {
-                    message = "Expression error. Please ensure that all opeing brackets have closing brackets.";
-                    error = true;
-                } else if (answer.Contains('+') || Regex.IsMatch(answer, "[a-zA-Z]")) {
-                    string longAnswer = castToBiggerNumericValue(answer);
-                    if(error) {
-                        return message;
-                    }
-                    return answer;
-                } else {
-                    return answer;
-                }
-                
-            }
+            if(operandStack.Count > 0 || variableStack.Count > 0) {
+                throw new ErrorException(500,"Expression error. Please ensure that all opeing brackets have closing brackets.");
+            } else if (answer.Contains('+') || Regex.IsMatch(answer, "[a-zA-Z]")) {
+                string longAnswer = castToBiggerNumericValue(answer);
+                return longAnswer;
+            }  
             
-            return message;
+            return answer;
 
         }
     }

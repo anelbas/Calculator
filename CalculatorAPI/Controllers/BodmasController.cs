@@ -21,7 +21,14 @@ namespace CalculatorAPI.Controllers
         [HttpPost(Name = "Bodmas")]
         public string getBodmasAnswer([FromBody] string equation) 
         {
-            return calculator.calculate(equation);
+            try{
+                return calculator.calculate(equation);
+            }
+            catch(ErrorException ex){
+                Response.StatusCode = ex.StatusCode;
+                return ex.ToString();
+            }
+            
         }
 
     }
