@@ -13,7 +13,7 @@ namespace CalculatorAPI.Repository
     public class TrigFunctionRepository
   
     {   
-    trigFunctions
+    //trigFunctions
         public double TrigImplement( List<Trig> ls){
             Validations.Validate(ls);
             string answer = null;
