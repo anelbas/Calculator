@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CalculatorAPI.Controllers
 {
@@ -6,22 +7,40 @@ namespace CalculatorAPI.Controllers
     [Route("[controller]")]
     public class CalculatorController : ControllerBase
     {
+        public readonly JwtAuthenticationManager jwtAuthenticationManager;
+
+        public CalculatorController(JwtAuthenticationManager jwtAuthenticationManager)
+        {
+            this.jwtAuthenticationManager = jwtAuthenticationManager;
+        }
+
         private static readonly string[] BODMAS = new[]
         {
         "Brackets", "Order", "Division", "Multiplication", "Addition", "Subtration"
-    };
-
-        private readonly ILogger<CalculatorController> _logger;
-
-        public CalculatorController(ILogger<CalculatorController> logger)
-        {
-            _logger = logger;
-        }
-
+        };
+        [Authorize]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<String> Get()
         {
             return BODMAS.ToArray();
         }
+        [AllowAnonymous]
+        [HttpPost("Authorize")]
+        public IActionResult AuthUser([FromBody] User user)
+        {
+            var token = jwtAuthenticationManager.Authenticate(user.username, user.password);
+
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(token);
+        }
+    }
+
+    public class User
+    {
+        public string username { get; set; }
+        public string password { get; set; }
     }
 }

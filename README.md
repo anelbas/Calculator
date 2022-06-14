@@ -2,4 +2,4 @@
 
 Main Language: C#
 
-Scope: BODMAS & solve for x functionality
+Scope: BODMAS, trigonometry, solve for x, vectors
