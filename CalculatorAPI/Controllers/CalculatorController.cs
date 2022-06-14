@@ -20,10 +20,7 @@ namespace CalculatorAPI.Controllers
         };
         [Authorize]
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<String> Get()
-        {
-            return BODMAS.ToArray();
-        }
+
         [AllowAnonymous]
         [HttpPost("Authorize")]
         public IActionResult AuthUser([FromBody] User user)
