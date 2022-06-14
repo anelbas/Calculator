@@ -66,7 +66,7 @@ namespace CalculatorAPI.Repository
             }
 
             if(variableStack.Count <= 0) {
-                message = "Expression error. Please make sure:\n 1. You added spaces between all numbers and operands\n2. There are no double operands\n3. The equation does not start or end with an operand\n4. Decimal values are written with a dot (.) and not a comma (,).";
+                message = "Expression error. Please make sure:\n1. You added spaces between all numbers and operands\n2. There are no double operands\n3. The equation does not start or end with an operand\n4. Decimal values are written with a dot (.) and not a comma (,).";
                 error = true;
                 return;
             } else {
@@ -122,7 +122,7 @@ namespace CalculatorAPI.Repository
                 if (operandStack.Count > 0 && string.Equals(operandStack.Peek(), "(")) {
                     operandStack.Pop();
                     } else {
-                        message = "Error: unbalanced paranthesis. Please ensure that each opening bracket has a closing bracket.";
+                        message = "Error: unbalanced paranthesis. Please ensure that each opening bracket has a closing bracket and that there are spaces between all individual input tokens.";
                         error = true;
                     }
                 }
