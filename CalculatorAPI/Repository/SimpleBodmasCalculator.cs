@@ -3,30 +3,30 @@ using System.Text.RegularExpressions;
 namespace CalculatorAPI.Repository
 {
 
-    public class BodmasCalculator
+    public class SimpleBodmasCalculator : BodmasBaseClass
     {
-        private Stack<string> operandStack;
-        private Stack<double> variableStack;
-        private string answer;
+        public Stack<string> operandStack;
+        public Stack<double> variableStack;
+        public string answer;
 
-        public BodmasCalculator() 
+        public SimpleBodmasCalculator() 
         {
             operandStack = new Stack<string>();
             variableStack = new Stack<double>();
             answer = "Null";
         }
 
-        private bool isOperand(string operand) 
+        public override bool isOperand(string operand) 
         {
             return string.Equals(operand, "+") || string.Equals(operand, "-") || string.Equals(operand, "/") || string.Equals(operand, "*");
         }
 
-        private bool isNumber(string number) 
+        public override bool isNumber(string number) 
         {
             return double.TryParse(number, out var n);
         }
 
-        private string castToBiggerNumericValue(string answer) 
+        public string castToBiggerNumericValue(string answer) 
         {
             try
             {
@@ -37,7 +37,7 @@ namespace CalculatorAPI.Repository
             
         }
 
-        private int getPrecedence(string operand) 
+        public override int getPrecedence(string operand) 
         {
             if(string.Equals(operand, "+") || string.Equals(operand, "-")) {
                 return 1;
@@ -47,7 +47,7 @@ namespace CalculatorAPI.Repository
             return 0;
         }
 
-        private void processOperand(string operand) 
+        public override void processOperand(string operand) 
         {
             double input1, input2;
             if(variableStack.Count <= 0) {
@@ -82,7 +82,7 @@ namespace CalculatorAPI.Repository
 
         }
 
-        public string calculate(string equation) 
+        public override string calculate(string equation) 
         {
             string[] individualInputs = equation.Split(" ");
 
