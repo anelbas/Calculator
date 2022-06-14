@@ -71,7 +71,11 @@ namespace CalculatorAPI.Repository
             } else if (string.Equals(operand, "-")) {
                 answerOfEquation = input1 - input2;
             } else if (string.Equals(operand, "/")) {
-                answerOfEquation = input1 / input2;
+                if (input2 == 0) {
+                    throw new ErrorException(500,"Division Error: You cannot divide by zero.");
+                } else {
+                    answerOfEquation = input1 / input2;
+                }
             } else if (string.Equals(operand, "*")) {
                 answerOfEquation = input1 * input2;
             } else {
