@@ -16,7 +16,7 @@ namespace CalculatorAPI.Controllers
         {
             _logger = logger;
         }
-        BodmasCalculator calculator = new BodmasCalculator();
+        SimpleBodmasCalculator calculator = new SimpleBodmasCalculator();
 
         [HttpPost(Name = "Bodmas")]
         public string getBodmasAnswer([FromBody] string equation) 
