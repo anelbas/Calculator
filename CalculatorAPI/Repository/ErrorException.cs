@@ -14,7 +14,7 @@ namespace CalculatorAPI.Repository
         }
         public string ToString()
         {
-            return "StutusCode: "+StatusCode+"\n"+"Message: "+Message;
+            return "StatusCode: "+StatusCode+"\n"+"Message: "+Message;
         }
     }
 }
