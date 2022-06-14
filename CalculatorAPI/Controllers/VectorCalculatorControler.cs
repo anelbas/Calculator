@@ -30,8 +30,14 @@ namespace WebApplication1.Controllers
             calculator.setOpperand(new AdditionCalculator());
             calculator.addVectors(vectors.vector1);
             calculator.addVectors(vectors.vector2);
-            String result = calculator.Calcutulate();
-            return result;
+            try{
+                String result = calculator.Calcutulate();
+                return result;
+            }
+            catch(ErrorException ex){
+                Response.StatusCode = ex.StatusCode;
+                return ex.ToString();
+            }
         }
         [Authorize]
         [Route("Subtract")]
@@ -41,8 +47,14 @@ namespace WebApplication1.Controllers
             calculator.setOpperand(new SubtrationCalculator());
             calculator.addVectors(vectors.vector1);
             calculator.addVectors(vectors.vector2);
-            String result = calculator.Calcutulate();
-            return result;
+            try{
+                String result = calculator.Calcutulate();
+                return result;
+            }
+            catch(ErrorException ex){
+                Response.StatusCode = ex.StatusCode;
+                return ex.ToString();
+            }
         }
         [Authorize]
         [Route("Multiply")]
@@ -52,8 +64,14 @@ namespace WebApplication1.Controllers
             calculator.setOpperand(new MultiplicationCalculator());
             calculator.addVectors(vectors.vector1);
             calculator.addVectors(vectors.vector2);
-            String result = calculator.Calcutulate();
-            return result;
+            try{
+                String result = calculator.Calcutulate();
+                return result;
+            }
+            catch(ErrorException ex){
+                Response.StatusCode = ex.StatusCode;
+                return ex.ToString();
+            }
         }
     }
 }
