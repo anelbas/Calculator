@@ -1,10 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CalculatorAPI.Models;
 using CalculatorAPI.Repository;
 using Microsoft.AspNetCore.Authorization;
 
@@ -22,13 +16,19 @@ namespace CalculatorAPI.Controllers
         {
             _logger = logger;
         }
-        BodmasCalculator calculator = new BodmasCalculator();
-
+        SimpleBodmasCalculator calculator = new SimpleBodmasCalculator();
 
         [HttpPost(Name = "Bodmas")]
         public string getBodmasAnswer([FromBody] string equation) 
         {
-            return calculator.calculate(equation);
+            try{
+                return calculator.calculate(equation);
+            }
+            catch(ErrorException ex){
+                Response.StatusCode = ex.StatusCode;
+                return ex.ToString();
+            }
+            
         }
 
     }
