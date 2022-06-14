@@ -16,18 +16,21 @@ namespace CalculatorAPI.Repository
         private bool error;
         private string message;
 
-        public BodmasCalculator() {
+        public BodmasCalculator() 
+        {
             operandStack = new Stack<string>();
             variableStack = new Stack<double>();
             error = false;
             message = "";
         }
 
-        private bool isOperand(string operand) {
+        private bool isOperand(string operand) 
+        {
             return string.Equals(operand, "+") || string.Equals(operand, "-") || string.Equals(operand, "/") || string.Equals(operand, "*");
         }
 
-        private bool isNumber(string number) {
+        private bool isNumber(string number) 
+        {
             return double.TryParse(number, out var n);
         }
 
@@ -38,14 +41,15 @@ namespace CalculatorAPI.Repository
                 return Convert.ToInt64(answer).ToString();
             } catch {
                 error = true;
-                message = "Size Error: The size of the answer to the equation you entered is beyond the capacity of this calculator.";
+                message = "Size Error: The size of the answer to the equation entered is bigger than the capacity allowed by the calculator api.";
                 return "0";
             }
             
 
         }
 
-        private int getPrecedence(string operand) {
+        private int getPrecedence(string operand) 
+        {
             if(string.Equals(operand, "+") || string.Equals(operand, "-")) {
                 return 1;
             } else if (string.Equals(operand, "/") || string.Equals(operand, "*")) {
@@ -54,10 +58,11 @@ namespace CalculatorAPI.Repository
             return 0;
         }
 
-        private void processOperand(string operand) {
+        private void processOperand(string operand) 
+        {
             double input1, input2;
             if(variableStack.Count <= 0) {
-                message = "Expression error.";
+                message = "Expression error. Please start your equation with a numeric value and not an operand.";
                 error = true;
                 return;
             } else {
@@ -93,7 +98,8 @@ namespace CalculatorAPI.Repository
 
         }
 
-        public string calculate(string equation) {
+        public string calculate(string equation) 
+        {
             string[] individualInputs = equation.Split(" ");
 
             foreach (string input in individualInputs) {
@@ -128,7 +134,8 @@ namespace CalculatorAPI.Repository
                 }
             }
 
-            while(operandStack.Count > 0 && isOperand(operandStack.Peek())) {
+            while(operandStack.Count > 0 && isOperand(operandStack.Peek())) 
+            {
                 string operandToProcess = operandStack.Peek();
                 operandStack.Pop();
                 processOperand(operandToProcess);
