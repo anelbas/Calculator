@@ -17,9 +17,9 @@ namespace CalculatorAPI.Controllers
             double ans = c / m;
             return Content("Ans: "+ans);
         }
-       [Authorize]
+       [AllowAnonymous]
        [HttpGet]
-        [Route("linear/{a:double}/{b:double}/{c:double}")]
+        [Route("quadratic/{a:double}/{b:double}/{c:double}")]
         public IActionResult GetAnsQ(double a, double b, double c)
         {
             double sqrtpart = b * b - 4 * a * c;
@@ -33,7 +33,7 @@ namespace CalculatorAPI.Controllers
                 x1 = (-b + System.Math.Sqrt(sqrtpart)) / (2 * a);
 
                 x2 = (-b - System.Math.Sqrt(sqrtpart)) / (2 * a);
-                return Content("Two real solutions: x1 " + x1+", x2"+x2);
+                return Content("Two real solutions: x1 " + x1+", x2 "+x2);
 
 
             }
@@ -42,7 +42,7 @@ namespace CalculatorAPI.Controllers
                 sqrtpart = -sqrtpart;
                 x = -b / (2 * a);
                 img = System.Math.Sqrt(sqrtpart) / (2 * a);
-                return Content("Two real solutions: x1 " + x + ", x2" + img);
+                return Content("Two real solutions: x1 " + x + ", x2 " + img);
             }
             else
 
@@ -53,7 +53,7 @@ namespace CalculatorAPI.Controllers
 
         }
 
-                [HttpGet]
+        [HttpGet]
         [Route("cubic/{a:double}/{b:double}/{c:double}/{d:double}")]
         public IActionResult cubicsolve(double a, double b, double c, double d)
         {
