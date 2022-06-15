@@ -16,7 +16,7 @@ namespace CalculatorAPI.Repository
                     values = VerticalHorizontalDimension(vectors);
                 }
                 else{
-                    throw new ErrorException(500,"Incorrect Dimensions, To multiply two matrices the number of columns of the first matrix must equal the number of rows of the second matrix");
+                    throw new ErrorException(400,"Incorrect Dimensions, To multiply two matrices the number of columns of the first matrix must equal the number of rows of the second matrix");
                 }
                
             return Matrix(values);
