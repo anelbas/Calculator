@@ -19,7 +19,6 @@ namespace WebApplication1.Controllers
         {
         
             try{
-                TrigPostRequest d = new  TrigPostRequest();
                 TrigFunctionRepository trigfun = new TrigFunctionRepository();
                 List<Trig> ls= trig.Tags;
                 return new ObjectResult(trigfun.TrigImplement(ls));
