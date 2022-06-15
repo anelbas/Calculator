@@ -8,7 +8,7 @@ namespace CalculatorAPI.Controllers
     [Route("[controller]")]
     public class SolveXController : Controller    
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("linear/{c:double}/{m:double}")]
         public IActionResult GetAnsL(double c,double m)
@@ -17,7 +17,7 @@ namespace CalculatorAPI.Controllers
             double ans = c / m;
             return Content("Ans: "+ans);
         }
-       [AllowAnonymous]
+       [Authorize]
        [HttpGet]
         [Route("quadratic/{a:double}/{b:double}/{c:double}")]
         public IActionResult GetAnsQ(double a, double b, double c)
@@ -52,7 +52,7 @@ namespace CalculatorAPI.Controllers
             }
 
         }
-
+        [Authorize]
         [HttpGet]
         [Route("cubic/{a:double}/{b:double}/{c:double}/{d:double}")]
         public IActionResult cubicsolve(double a, double b, double c, double d)
