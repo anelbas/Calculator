@@ -18,7 +18,7 @@ namespace CalculatorAPI.Repository
                 values = VerticalDimension(vectors);
             }
             else {
-                throw new ErrorException(400,"Incorrect Dimensions, To add matrices, the matrices must have the same dimensions");
+                throw new ErrorException(500,"Incorrect Dimensions, To add matrices, the matrices must have the same dimensions");
             }
         
             return Matrix(values);
